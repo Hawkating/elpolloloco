@@ -1,0 +1,242 @@
+@font-face {
+    font-family: zabars;
+    src: url('./fonts/zabars.ttf');
+}
+
+
+body {
+    font-family: 'zabars', Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    height: 100vh;
+    background-image: url('./img/desert1.webp');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
+
+h1 {
+    font-size: 60px;
+    letter-spacing: 3px;
+    color: white;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+    position: fixed;
+    top: 10%;
+}
+
+canvas {
+    position: relative;
+    background: url('./img/5_background/layers/air.png');
+    background-size: cover;
+    display: block;
+    border: 1px solid white;
+    border-radius: 10px;
+    box-shadow: 5px 10px 8px rgba(0, 0, 0, 0.5);
+}
+
+#info {
+    background-color: rgba(255, 204, 1, 0.8);
+    padding: 12px;
+    letter-spacing: 1px;
+    box-shadow: 5px 10px 8px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    text-align: center;
+    margin-top: 40px;
+    color: white;
+    text-outline: 3px 3px #ccc;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+    font-size: 24px;
+    position: fixed;
+    top: 80%;
+}
+
+.container {
+    display: flex;
+    position: fixed;
+    top: 25%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-image: url('./img/desert1.webp');
+    background-size: cover;
+    background-repeat: no-repeat; */
+
+}
+
+.container:fullscreen {
+    background-image: url('./img/desert1.webp');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.start-button {
+    z-index: 1;
+    color: white;
+    position: relative;
+    top: 30%;
+    font-size: 40px;
+}
+
+.start-button:hover {
+    cursor: pointer;
+    color: rgba(255, 204, 1, 1);
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+    transform: scale(1.2);
+}
+
+.end-button {
+    z-index: 1;
+    color: white;
+    position: fixed;
+    top: 79%;
+    font-size: 40px;
+}
+
+.end-button:hover {
+    cursor: pointer;
+    color: rgba(255, 204, 1, 1);
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+    transform: scale(1.2);
+}
+
+.fullscreen-button {
+    z-index: 1;
+    background-color: rgba(255, 204, 1, 0.8);
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 8px;
+
+}
+
+.fullscreen-button img {
+    height: 24px;
+    width: 24px;
+}
+
+.fullscreen-button img:hover {
+    cursor: pointer;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+    transform: scale(1.2);
+}
+
+.buttons-container {
+    display: flex;
+    gap: 24px;
+    width: 720px;
+    position: relative;
+    margin-top: 12px;
+}
+
+
+.d-none {
+    display: none !important;
+}
+
+.v-hidden {
+    visibility: hidden;
+}
+
+#responsive-keyboard {
+    display: none;
+}
+
+.arrow-left {
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    border-radius: 15px;
+    background-color: aquamarine;
+    transform: scaleX(-1);
+}
+
+.arrow-right {
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    background-color: aquamarine;
+    border-radius: 15px;
+
+}
+
+.space {
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    background-color: aquamarine;
+    border-radius: 15px;
+
+}
+
+.d-button {
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    background-color: aquamarine;
+    border-radius: 15px;
+
+}
+
+
+@media only screen and (max-width: 720px) {
+    canvas {
+        width: 100%;
+    }
+
+    .buttons-container {
+        width: 100%;
+    }
+
+    #responsive-keyboard {
+        position: fixed;
+        bottom: 0;
+        z-index: 10;
+
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 24px;
+    }
+
+    #fullscreen-button{
+        display:none;
+    }
+
+    #fullscreen-button-exit{
+        display:none;
+    }
+
+    #info{
+        display: none;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    canvas {
+        height: 100vh;
+    }
+}
+
+@media(max-width: 360px){
+    #responsive-keyboard {
+        gap: 12px;
+    }
+
+}

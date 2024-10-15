@@ -1,0 +1,144 @@
+let canvas;
+let world;
+let keyboard = new Keyboard();
+let screen = new Screen('./img/9_intro_outro_screens/start/startscreen_1.png');
+let ctxGame;
+let mute = false;
+
+function init() {
+    document.getElementById('start-button').classList.add('v-hidden');
+    document.getElementById('replay-button').classList.add('v-hidden');
+    canvas = document.getElementById('canvas');
+    world = new World(canvas, keyboard);
+    initResponsiveButtons();
+}
+
+function initStartScreen() {
+    canvas = document.getElementById('canvas');
+    drawScreen('./img/9_intro_outro_screens/start/startscreen_1.png');
+}
+
+function drawScreen(imgRef) {
+    ctxGame = canvas.getContext('2d');
+    screen = new Screen(imgRef);
+    ctxGame.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    ctxGame.drawImage(screen['img'], screen['x'], screen['y'], screen['width'], screen['height']);
+}
+
+
+
+window.addEventListener('keydown', (event) => {
+    if (event['keyCode'] == 39) {
+        keyboard['RIGHT'] = true;
+    };
+    if (event['keyCode'] == 37) {
+        keyboard['LEFT'] = true;
+    };
+    if (event['keyCode'] == 38) {
+        keyboard['UP'] = true;
+    };
+    if (event['keyCode'] == 40) {
+        keyboard['DOWN'] = true;
+    };
+    if (event['keyCode'] == 32) {
+        keyboard['SPACE'] = true;
+    };
+    if (event['keyCode'] == 68) {
+        keyboard['D'] = true;
+    };
+});
+
+window.addEventListener('keyup', (event) => {
+    if (event['keyCode'] == 39) {
+        keyboard['RIGHT'] = false;
+    };
+    if (event['keyCode'] == 37) {
+        keyboard['LEFT'] = false;
+    };
+    if (event['keyCode'] == 38) {
+        keyboard['UP'] = false;
+    };
+    if (event['keyCode'] == 40) {
+        keyboard['DOWN'] = false;
+    };
+    if (event['keyCode'] == 32) {
+        keyboard['SPACE'] = false;
+    };
+    if (event['keyCode'] == 68) {
+        keyboard['D'] = false;
+    };
+});
+
+
+function initResponsiveButtons() {
+    document.getElementById('arrow-left').addEventListener('touchstart', () => {
+        keyboard['LEFT'] = true;
+    });
+    document.getElementById('arrow-left').addEventListener('touchend', () => {
+        keyboard['LEFT'] = false;
+    });
+    document.getElementById('arrow-right').addEventListener('touchstart', () => {
+        keyboard['RIGHT'] = true;
+    });
+    document.getElementById('arrow-right').addEventListener('touchend', () => {
+        keyboard['RIGHT'] = false;
+    });
+    document.getElementById('space').addEventListener('touchstart', () => {
+        keyboard['SPACE'] = true;
+    });
+    document.getElementById('space').addEventListener('touchend', () => {
+        keyboard['SPACE'] = false;
+    });
+    document.getElementById('d-button').addEventListener('touchstart', () => {
+        keyboard['D'] = true;
+    });
+    document.getElementById('d-button').addEventListener('touchend', () => {
+        keyboard['D'] = false;
+    });
+
+}
+
+
+document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement) {
+        document.getElementById('fullscreen-button-exit').classList.add('d-none');
+        document.getElementById('fullscreen-button').classList.remove('d-none');
+    }
+});
+
+function enterFullscreen() {
+    element = document.getElementById('fullscreen');
+    document.getElementById('fullscreen-button').classList.add('d-none');
+    document.getElementById('fullscreen-button-exit').classList.remove('d-none');
+    if (element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+    } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+    }
+}
+
+function exitFullscreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+        document.getElementById('fullscreen-button-exit').classList.add('d-none');
+        document.getElementById('fullscreen-button').classList.remove('d-none');
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    }
+}
+
+function muteAll() {
+    document.getElementById('mute-button-mute').classList.add('d-none');
+    document.getElementById('mute-button-unmute').classList.remove('d-none');
+    mute = true;
+
+}
+
+function unmuteAll() {
+    document.getElementById('mute-button-unmute').classList.add('d-none');
+    document.getElementById('mute-button-mute').classList.remove('d-none');
+    mute = false;
+
+}
