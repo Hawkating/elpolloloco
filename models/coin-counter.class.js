@@ -5,18 +5,24 @@ class CoinCounter extends DrawableObject {
     width = 45;
     height = 45;
     coincount = 0;
-    collectbottleSound = new Audio ('./audio/collectcoin.mp3');
+    collectbottleSound = new Audio('./audio/collectcoin.mp3');
 
-
+    /**
+     * Loads image
+     */
     constructor() {
         super().loadImage('./img/7_statusbars/3_icons/icon_coin.png', this.x);
     }
 
-    collect(obj){
+    /**
+     * Collect a coin: setup the y-coordinate of this coin outside of the canvas / increases the coincounter
+     * @param {object} obj - coin
+     */
+    collect(obj) {
         if (!mute) {
-        this.collectbottleSound.play();
+            this.collectbottleSound.play();
         }
-        this.coincount ++;
+        this.coincount++;
         obj.y = -2000;
     }
 }

@@ -5,6 +5,13 @@ class Level {
     backgroundObjects;
     collectableObjects;
 
+    /**
+     * Setup the level
+     * @param {array} enemies 
+     * @param {array} clouds 
+     * @param {array} backgroundObjects 
+     * @param {array} collectableObjects 
+     */
     constructor(enemies, clouds, backgroundObjects, collectableObjects){
         this.enemies = enemies;
         this.clouds = clouds;

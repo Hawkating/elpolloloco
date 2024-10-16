@@ -7,12 +7,21 @@ class DrawableObject {
     img;
     imageCache = {};
 
+    /**
+     * Loads the image
+     * @param {string} path 
+     * @param {number} x 
+     */
     loadImage(path, x) {
         this.img = new Image();
         this.img.src = path;
         this.x = x
     }
 
+    /**
+     * Loads the images of an array
+     * @param {array} arr 
+     */
     loadImages(arr) {
         arr.forEach(path => {
             let img = new Image();
@@ -20,6 +29,5 @@ class DrawableObject {
             this.imageCache[path] = img;
         });
     }
-
 
 }

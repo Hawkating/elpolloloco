@@ -24,7 +24,10 @@ class ThrowableObject extends MovableObject {
     throwSound = new Audio('./audio/throw.mp3');
     brokenBottleSound = new Audio('./audio/brokenbottle.mp3');
 
-
+    /**
+     * setup the bottle to the character via coordinates and load images
+     * @param {number} y 
+     */
     constructor(y) {
         super();
         this.x = world.character.x;
@@ -38,40 +41,54 @@ class ThrowableObject extends MovableObject {
         this.throw();
     }
 
+    /**
+     * Prepares the logic for the bottle and the interval
+     */
     throw() {
         if (!mute) {
-        this.throwSound.play();
+            this.throwSound.play();
         }
         this.speedY = 30;
         this.applyGravity();
         world.lastThrow = new Date().getTime();
-        this.intervalId = setInterval(() => {
-            if (this.bottleSplashBecauseOfGround()) {
-                this.breakBottle();
-            } else if(this.currentImageSplash == 0){
-                this.img = this.imageCache[this.IMAGES_ROTATION[this.currentImageRotation]];
-                this.currentImageRotation++;
-                if (this.currentImageRotation > 3) {
-                    this.currentImageRotation = 0;
-                }
-                if (this.otherDirection) {
-                    this.x -= 15;
-                } else if (!this.otherDirection) {
-                    this.x += 15;
-                }
-            }
-        }, 50)
+        this.intervalId = setInterval(() => this.throwInterval(), 50)
     }
 
+    /**
+     * animation for the bottle
+     */
+    throwInterval(){
+        if (this.bottleSplashBecauseOfGround()) {
+            this.breakBottle();
+        } else if (this.currentImageSplash == 0) {
+            this.img = this.imageCache[this.IMAGES_ROTATION[this.currentImageRotation]];
+            this.currentImageRotation++;
+            if (this.currentImageRotation > 3) {
+                this.currentImageRotation = 0;
+            }
+            if (this.otherDirection) {
+                this.x -= 15;
+            } else if (!this.otherDirection) {
+                this.x += 15;
+            }
+        }
+    }
+
+    /**
+     * checks if the bottle is on ground
+     * @returns true or false
+     */
     bottleSplashBecauseOfGround() {
         return this.y > 350;
-
     }
 
+    /**
+     * animation for the breaking bottle
+     */
     breakBottle() {
         this.splashStarted = true;
         if (!mute) {
-        this.brokenBottleSound.play();
+            this.brokenBottleSound.play();
         }
         this.acceleration = 0;
         this.speedY = 0;
@@ -85,6 +102,9 @@ class ThrowableObject extends MovableObject {
         }
     }
 
+    /**
+     * puts the image outside of the canvas
+     */
     stopImage() {
         this.y = 2000;
     }

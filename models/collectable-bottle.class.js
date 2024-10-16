@@ -3,7 +3,6 @@ class CollectableBottle extends CollectableObject {
     width = 80;
     height = 100;
     y = 345;
-    // otherDirection = false;
     IMAGES_BOTTLE = [
         './img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
         './img/6_salsa_bottle/2_salsa_bottle_on_ground.png'
@@ -11,6 +10,10 @@ class CollectableBottle extends CollectableObject {
     ]
     currentImage = 0;
 
+    /**
+     * Setup the images and coordinates
+     * @param {number} x 
+     */
     constructor(x) {
         super();
         this.x = x;
@@ -20,15 +23,18 @@ class CollectableBottle extends CollectableObject {
         this.animate();
     }
 
+    /**
+     * Start the animation interval
+     */
     animate() {
-        setInterval(() => {
+        let interval = setInterval(() => {
             this.img = this.imageCache[this.IMAGES_BOTTLE[this.currentImage]];
             this.currentImage++;
             if (this.currentImage > 1) {
                 this.currentImage = 0;
             }
-
-        }, 800)
+        }, 800);
+        allIntervals.push(interval);
     }
 
 }

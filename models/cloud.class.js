@@ -4,7 +4,10 @@ class Cloud extends MovableObject {
     width = 400;
     height = 250;
 
-
+    /**
+     * Loads Images and setup clouds
+     * @param {number} startpoint 
+     */
     constructor(startpoint) {
         super();
         this.setupX(startpoint);
@@ -12,13 +15,21 @@ class Cloud extends MovableObject {
         this.animate()
     }
 
+    /**
+     * Sets the x-coordinate
+     * @param {number} startpoint 
+     */
     setupX(startpoint){
         this.x = startpoint + Math.random() * 500;
     }
 
+    /**
+     * Interval to animate clouds
+     */
     animate() {
-        setInterval(() => {
+        let interval = setInterval(() => {
             this.x -= 0.15;
         }, 1000 / 60);
+        // allIntervals.push(interval);
     }
 }

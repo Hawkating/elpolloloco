@@ -4,15 +4,19 @@ class Character extends MovableObject {
     y = 200;
     width = 128;
     height = 240;
-
     lastMove = 0;
-    IMAGES_WALKING = ['./img/2_character_pepe/2_walk/W-21.png',
+
+    intervalIdAnimate;
+    intervalIdWalk;
+
+    IMAGES_WALKING = [
+        './img/2_character_pepe/2_walk/W-21.png',
         './img/2_character_pepe/2_walk/W-22.png',
         './img/2_character_pepe/2_walk/W-23.png',
         './img/2_character_pepe/2_walk/W-24.png',
         './img/2_character_pepe/2_walk/W-25.png',
-        './img/2_character_pepe/2_walk/W-26.png',];
-
+        './img/2_character_pepe/2_walk/W-26.png',
+    ];
     IMAGES_JUMPING = [
         './img/2_character_pepe/3_jump/J-31.png',
         './img/2_character_pepe/3_jump/J-32.png',
@@ -24,7 +28,6 @@ class Character extends MovableObject {
         './img/2_character_pepe/3_jump/J-38.png',
         './img/2_character_pepe/3_jump/J-39.png',
     ];
-
     IMAGES_DEAD = [
         './img/2_character_pepe/5_dead/D-51.png',
         './img/2_character_pepe/5_dead/D-52.png',
@@ -34,13 +37,11 @@ class Character extends MovableObject {
         './img/2_character_pepe/5_dead/D-56.png',
         './img/2_character_pepe/5_dead/D-57.png',
     ]
-
     IMAGES_HURT = [
         './img/2_character_pepe/4_hurt/H-41.png',
         './img/2_character_pepe/4_hurt/H-42.png',
         './img/2_character_pepe/4_hurt/H-43.png'
     ]
-
     IMAGES_IDLE = [
         './img/2_character_pepe/1_idle/idle/I-1.png',
         './img/2_character_pepe/1_idle/idle/I-2.png',
@@ -53,7 +54,6 @@ class Character extends MovableObject {
         './img/2_character_pepe/1_idle/idle/I-9.png',
         './img/2_character_pepe/1_idle/idle/I-10.png'
     ]
-
     IMAGES_LONGIDLE = [
         './img/2_character_pepe/1_idle/long_idle/I-11.png',
         './img/2_character_pepe/1_idle/long_idle/I-12.png',
@@ -65,7 +65,6 @@ class Character extends MovableObject {
         './img/2_character_pepe/1_idle/long_idle/I-18.png',
         './img/2_character_pepe/1_idle/long_idle/I-19.png',
         './img/2_character_pepe/1_idle/long_idle/I-20.png'
-
     ]
 
     currentImageWalking = 0;
@@ -74,6 +73,7 @@ class Character extends MovableObject {
     currentImageDead = 0;
     currentImageIdle = 0;
     currentImageLongIdle = 0;
+
     walkingSound = new Audio('./audio/steps.mp3');
     jumpingSound = new Audio('./audio/jump.mp3')
     hurt = false;
@@ -81,7 +81,9 @@ class Character extends MovableObject {
     lastKilledChicken = 501;
     won = false;
 
-
+    /**
+     * Initializes the character parameters and load images
+     */
     constructor() {
         super().loadImage('img/2_character_pepe/1_idle/idle/I-1.png', this.x);
         this.loadImages(this.IMAGES_WALKING);
@@ -91,171 +93,277 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONGIDLE);
         this.setLastMove();
-        this.animateWalking();
+        this.setMovementInterval();
+        this.setAnimationInterval();
         this.applyGravity();
-
     }
 
-
-
-    animateWalking() {
-
-        let intervalIdWalk = setInterval(() => {
-            this.walkingSound.pause();
-            if (this.world.keyboard.RIGHT && this.x < 5000 && !this.justGotHurt() && !this.isDead()) {
-                this.otherDirection = false;
-                if (!mute) {
-                this.walkingSound.play();
-                }
-                this.x += 15;
-                this.setLastMove();
-            }
-            if (this.world.keyboard.LEFT && this.x > -500 && !this.isDead()) {
-                this.otherDirection = true;
-                if (!mute) {
-                this.walkingSound.play()
-                }
-                this.x -= 15;
-                this.setLastMove();
-            }
-            if (this.world.keyboard.SPACE && this.y == 200 && !this.isDead()) {
-                if (!mute) {
-                this.jumpingSound.play();
-                }
-                this.speedY = 25;
-                this.setLastMove();
-            }
-            this.world.camera_x = -this.x + 100;
-
-
-
-        }, 1000 / 30);
-
-        let intervalIdAnimate = setInterval(() => {
-
-            if (this.y > 200) {
-                this.y = 200;
-            }
-            let currentTime = new Date().getTime();
-            let timePassed = currentTime - this.lastMove;
-            if (this.isDead()) {
-                document.getElementById('replay-button').classList.remove('v-hidden');
-                this.img = this.imageCache[this.IMAGES_DEAD[this.currentImageDead]];
-                this.currentImageDead++;
-                this.world.music.endbossTheme.pause();
-                this.world.music.theme.pause();
-                clearInterval(this.world.music.intervalId)
-                if (this.currentImageDead > 6) {
-                    this.currentImageDead = 6;
-                    clearInterval(intervalIdAnimate);
-                    clearInterval(intervalIdWalk);
-
-                }
-            } else if (this.justGotHurt()) {
-                this.x -= 10;
-                this.img = this.imageCache[this.IMAGES_HURT[this.currentImageGetsHurt]];
-
-                this.currentImageGetsHurt++;
-                if (this.currentImageGetsHurt > 2) {
-                    this.currentImageGetsHurt = 0;
-                    // this.hurt = false;
-                }
-
-
-
-
-            } else if (this.isAboveGround()) {
-                let path = this.IMAGES_JUMPING[this.currentImageJumping];
-                this.img = this.imageCache[path];
-                if (this.speedY > 0) {
-
-                    this.img = this.imageCache[path];
-                    this.currentImageJumping++;
-                    if (this.currentImageJumping > 3) {
-                        this.currentImageJumping = 3;
-                    }
-                }
-
-                if (this.speedY < 0 && this.currentImageJumping == 3) {
-                    this.currentImageJumping = 4;
-                    path = this.IMAGES_JUMPING[this.currentImageJumping];
-                    this.img = this.imageCache[path];
-                    this.currentImageJumping++;
-                }
-                if (this.speedY < 0 && this.currentImageJumping == 5 && this.y < 140) {
-                    this.img = this.imageCache[path];
-                }
-                if (this.speedY < 0 && this.currentImageJumping >= 5 && this.currentImageJumping <= 8 && this.y > 140) {
-                    this.currentImageJumping++;
-                    path = this.IMAGES_JUMPING[this.currentImageJumping];
-                    this.img = this.imageCache[path];
-                }
-                if (this.currentImageJumping > 8) {
-                    this.currentImageJumping = 8;
-                    path = this.IMAGES_JUMPING[this.currentImageJumping];
-                    this.img = this.imageCache[path];
-                }
-
-            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                let path = this.IMAGES_WALKING[this.currentImageWalking];
-                this.img = this.imageCache[path];
-                this.currentImageWalking++;
-                if (this.currentImageWalking > 5) {
-                    this.currentImageWalking = 0;
-                }
-            } else {
-                this.img = this.imageCache[this.IMAGES_IDLE[0]]
-                if (timePassed > 5000) {
-                    this.img = this.imageCache[this.IMAGES_IDLE[this.currentImageIdle]];
-                    this.currentImageIdle++
-
-
-                    if (this.currentImageIdle > 9) {
-                        this.currentImageIdle = 9
-                    }
-                }
-                if (timePassed > 9000) {
-                    this.img = this.imageCache[this.IMAGES_LONGIDLE[this.currentImageLongIdle]];
-                    this.currentImageLongIdle++
-
-                    if (this.currentImageLongIdle > 9) {
-                        this.currentImageLongIdle = 0
-                    }
-                }
-
-            }
-
-        }, 1000 / 30);
-
+    /**
+     * Setup the interval for the movement of the character
+     */
+    setMovementInterval() {
+        this.intervalIdWalk = setInterval(() => this.movementInterval(), 1000 / 30);
+        allIntervals.push(this.intervalIdWalk);
     }
 
+    /**
+    * Setup the interval for the animation of the character
+    */
+    setAnimationInterval() {
+        this.intervalIdAnimate = setInterval(() => this.animationInterval(), 1000 / 30);
+        allIntervals.push(this.intervalIdAnimate);
+    }
 
+    /**
+     * Creates the movement of the character due different conditions
+     */
+    movementInterval() {
+        if (this.canMoveRight()) {
+            this.moveRight();
+        } else if (this.canMoveLeft()) {
+            this.moveLeft();
+        }
+        if (this.canJump()) {
+            this.jump()
+        }
+        this.world.camera_x = -this.x + 100;
+    }
+
+    /**
+    * Uses the keyboardkeys to manipulate the animations of the character
+    */
+    animationInterval() {
+        this.setupY(this.y, 200);
+        if (this.isDead()) {
+            this.isDeadEvent();
+        } else if (this.justGotHurt()) {
+            this.justGotHurtEvent();
+        } else if (this.isAboveGround()) {
+            this.jumpEvent();
+        } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            this.moveEvent();
+        } else {
+            this.animateIdle();
+        }
+    }
+
+    /**
+     * Checks if the conditions are true
+     * @returns true or false
+     */
+    canMoveRight() {
+        return this.world.keyboard.RIGHT && this.x < 5000 && !this.justGotHurt() && !this.isDead();
+    }
+
+    /**
+     * Checks if the conditions are true
+     * @returns true or false
+     */
+    canMoveLeft() {
+        return this.world.keyboard.LEFT && this.x > -500 && !this.isDead();
+    }
+
+    /**
+     * Checks if the conditions are true
+     * @returns true or false
+     */
+    canJump() {
+        return this.world.keyboard.SPACE && this.y == 200 && !this.isDead();
+    }
+
+    /**
+     * manipulates the x-coordinate to move right
+     */
+    moveRight() {
+        this.otherDirection = false;
+        if (!mute) {
+            this.walkingSound.play();
+        }
+        this.x += 15;
+        this.setLastMove();
+    }
+
+    /**
+     * manipulates the x-coordinate to move right
+     */
+    moveLeft() {
+        this.otherDirection = true;
+        if (!mute) {
+            this.walkingSound.play()
+        }
+        this.x -= 15;
+        this.setLastMove();
+    }
+
+    /**
+     * Lets the player jump
+     */
+    jump() {
+        if (!mute) {
+            this.jumpingSound.play();
+        }
+        this.speedY = 25;
+        this.setLastMove();
+    }
+
+    /**
+     * Small Jump after jumping on a chicken
+     */
     smallJump() {
+        this.currentImageJumping = 3;
         this.speedY = 10;
     }
 
-    justGotHurt() {
-        let currentTime = new Date().getTime();
-        let timePassed = currentTime - this.lastHit;
-        return timePassed < 500;
-
-
+    /**
+     * Due to timePassed condition it uses the short or long idle function to animate it
+     */
+    animateIdle() {
+        let timePassed = this.createTimePassed(this.lastMove);
+        this.img = this.imageCache[this.IMAGES_IDLE[0]]
+        if (timePassed > 5000) {
+            this.shortIdleEvent();
+        }
+        if (timePassed > 9000) {
+            this.longIdleEvent();
+        }
     }
 
+    /**
+     * Returns the time after last hit
+     * @returns number
+     */
+    justGotHurt() {
+        let timePassed = this.createTimePassed(this.lastHit);
+        return timePassed < 500;
+    }
+
+    /**
+     * Returns the time after last killed chicken
+     * @returns number
+     */
     justKilledChicken() {
-        let currentTime = new Date().getTime();
-        let timePassed = currentTime - this.lastKilledChicken;
+        let timePassed = this.createTimePassed(this.lastKilledChicken);
         return timePassed < 100;
     }
 
+    /**
+     * Says if the characters speedY is positive or negative
+     * @returns true or false
+     */
     isFalling() {
         return this.speedY < 0 && this.isAboveGround();
     }
 
+    /**
+     * setup the last movement in variable to prepre the idle animation
+     */
     setLastMove() {
         this.currentImageIdle = 0;
         this.lastMove = new Date().getTime();
     }
 
+    /**
+     * Animation and events if the character dies
+     */
+    isDeadEvent() {
+        document.getElementById('replay-button').classList.remove('v-hidden');
+        this.img = this.imageCache[this.IMAGES_DEAD[this.currentImageDead]];
+        this.currentImageDead++;
+        this.world.music.endbossTheme.pause();
+        this.world.music.theme.pause();
+        clearAllIntervals();
+        if (this.currentImageDead > 6) {
+            this.currentImageDead = 6;
+        }
+    }
 
+    /**
+     * Animation and events if the character get a hit
+     */
+    justGotHurtEvent() {
+        this.x -= 10;
+        this.img = this.imageCache[this.IMAGES_HURT[this.currentImageGetsHurt]];
+        this.currentImageGetsHurt++;
+        if (this.currentImageGetsHurt > 2) {
+            this.currentImageGetsHurt = 0;
+        }
+    }
+
+    /**
+     * Animation and events if the character jumps
+     */
+    jumpEvent() {
+        let path = this.IMAGES_JUMPING[this.currentImageJumping];
+        this.img = this.imageCache[path];
+        if (this.speedY > 0) {
+            this.img = this.imageCache[path];
+            this.currentImageJumping++;
+            if (this.currentImageJumping > 3) {
+                this.currentImageJumping = 3;
+            }
+        }
+        if (this.speedY < 0 && this.currentImageJumping == 3) {
+            this.currentImageJumping = 4;
+            path = this.IMAGES_JUMPING[this.currentImageJumping];
+            this.img = this.imageCache[path];
+            this.currentImageJumping++;
+        }
+        if (this.speedY < 0 && this.currentImageJumping == 5 && this.y < 170) {
+            this.img = this.imageCache[path];
+        }
+        if (this.speedY < 0 && this.currentImageJumping >= 5 && this.currentImageJumping <= 8 && this.y > 170) {
+            this.currentImageJumping++;
+            path = this.IMAGES_JUMPING[this.currentImageJumping];
+            this.img = this.imageCache[path];
+        }
+        if (this.currentImageJumping > 8) {
+            this.currentImageJumping = 8;
+            path = this.IMAGES_JUMPING[this.currentImageJumping];
+            this.img = this.imageCache[path];
+        }
+    }
+
+    /**
+     * Animation and events if the character moves
+     */
+    moveEvent() {
+        let path = this.IMAGES_WALKING[this.currentImageWalking];
+        this.img = this.imageCache[path];
+        this.currentImageWalking++;
+        if (this.currentImageWalking > 5) {
+            this.currentImageWalking = 0;
+        }
+    }
+
+    /**
+     * Short Idle animation
+     */
+    shortIdleEvent() {
+        this.img = this.imageCache[this.IMAGES_IDLE[this.currentImageIdle]];
+        this.currentImageIdle++
+        if (this.currentImageIdle > 9) {
+            this.currentImageIdle = 9
+        }
+    }
+
+    /**
+     * Long Idle animation
+     */
+    longIdleEvent() {
+        this.img = this.imageCache[this.IMAGES_LONGIDLE[this.currentImageLongIdle]];
+        this.currentImageLongIdle++
+        if (this.currentImageLongIdle > 9) {
+            this.currentImageLongIdle = 0
+        }
+    }
+
+    /**
+     * 
+     * @param {number} par - returns the passed Time between current time and parameter
+     * @returns number
+     */
+    createTimePassed(par) {
+        let currentTime = new Date().getTime();
+        return currentTime - par
+    }
 }
