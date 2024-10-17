@@ -23,6 +23,7 @@ class ThrowableObject extends MovableObject {
     splashStarted = false;
     throwSound = new Audio('./audio/throw.mp3');
     brokenBottleSound = new Audio('./audio/brokenbottle.mp3');
+    bottleAlreadyBroken = false;
 
     /**
      * setup the bottle to the character via coordinates and load images
@@ -38,6 +39,8 @@ class ThrowableObject extends MovableObject {
         if (world.character.otherDirection) {
             this.otherDirection = true;
         }
+        this.throwSound.volume = 1;
+        this.brokenBottleSound.volume = 1;
         this.throw();
     }
 
@@ -51,15 +54,21 @@ class ThrowableObject extends MovableObject {
         this.speedY = 30;
         this.applyGravity();
         world.lastThrow = new Date().getTime();
-        this.intervalId = setInterval(() => this.throwInterval(), 50)
+        this.intervalId = setInterval(() => this.throwInterval(), 50);
+        pauseIntervalBottle.push({
+            id: this.intervalId,
+            func: () => this.throwInterval(),
+            delay: 50
+        });
     }
 
     /**
      * animation for the bottle
      */
     throwInterval(){
-        if (this.bottleSplashBecauseOfGround()) {
+        if (this.bottleSplashBecauseOfGround() && this.bottleAlreadyBroken == false) {
             this.breakBottle();
+            this.bottleAlreadyBroken = true;
         } else if (this.currentImageSplash == 0) {
             this.img = this.imageCache[this.IMAGES_ROTATION[this.currentImageRotation]];
             this.currentImageRotation++;

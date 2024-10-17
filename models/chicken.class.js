@@ -39,6 +39,7 @@ class Chicken extends MovableObject {
     setAnimationInterval(character) {
         let intervalId = setInterval(() => this.animate(character), 100);
         allIntervals.push(intervalId);
+        pauseIntervalChicken.push(intervalId);
     }
 
     /**

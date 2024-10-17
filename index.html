@@ -35,31 +35,43 @@
     <script src="./models/level.class.js"></script>
 </head>
 
-<body onload="drawScreen('./img/9_intro_outro_screens/start/startscreen_1.png')">
+<body onload="drawScreen('./img/9_intro_outro_screens/start/startscreen_1.png'); checkResolution()">
 
-    <h1>El Pollo Loco</h1>
-
-        <div class="container" id="fullscreen">
-            <canvas id="canvas" width="720" height="480"></canvas>
-            <div id="responsive-keyboard">
-                <div class="arrow-left" id="arrow-left"><img src="./img\icons/right-arrow-button-icon.svg"></div>
-                <div class="arrow-right" id="arrow-right"><img src="./img\icons/right-arrow-button-icon.svg"></div>
-                <div class="space" id="space"><img src="./img\icons/space-button-icon.svg"></div>
-                <div class="d-button" id="d-button"><img src="./img/icons/d-button-icon.svg"></div>
-            </div>
-
-            <div id="start-button" class="start-button" onclick="init()">Start</div>
-            <div id="replay-button" class="end-button v-hidden" onclick=" restart()">Replay</div>
-            <div class="buttons-container">
-                <div id="fullscreen-button" class="fullscreen-button" onclick="enterFullscreen()"><img src="./img/icons/fullscreen.png"></div>
-                <div id="fullscreen-button-exit" class="fullscreen-button d-none" onclick="exitFullscreen()"><img src="./img/icons/fullscreen-exit.svg"></div>
-                <div id="mute-button-mute" class="fullscreen-button" onclick="muteAll()"><img src="./img/icons/unmute.png"></div>
-                <div id="mute-button-unmute" class="fullscreen-button d-none" onclick="unmuteAll()"><img src="./img/icons/mute.png"></div>
-              </div>
-            <div id="info">left / right - ARROWS <br> jump - SPACE <br> throw bottle - D</div>
-
+    <div id="dialog" class="d-none">
+        <div>
+            <h3>Please rotate your screen to play!</h3>
         </div>
-        
+    </div>
+    <div>
+        <h1>El Pollo Loco</h1>
+    </div>
+    <div class="container" id="fullscreen">
+        <canvas id="canvas" width="720" height="480"></canvas>
+        <div id="responsive-keyboard">
+            <div class="arrow-left" id="arrow-left"><img src="./img\icons/right-arrow-button-icon.svg"></div>
+            <div class="arrow-right" id="arrow-right"><img src="./img\icons/right-arrow-button-icon.svg"></div>
+            <div class="space" id="space"><img src="./img\icons/space-button-icon.svg"></div>
+            <div class="d-button" id="d-button"><img src="./img/icons/d-button-icon.svg"></div>
+        </div>
+        <div class="buttons-container">
+            <div id="fullscreen-button" class="fullscreen-button" onclick="enterFullscreen()"><img
+                    src="./img/icons/fullscreen.png"></div>
+            <div id="fullscreen-button-exit" class="fullscreen-button d-none" onclick="exitFullscreen()"><img
+                    src="./img/icons/fullscreen-exit.svg"></div>
+            <div id="start-button" class="start-button" onclick="init()">Start</div>
+            <div id="replay-button" class="end-button d-none" onclick=" restart()">Replay</div>
+            <div id="pause-button" class="pause-button d-none" onclick="pause()"><img src="./img/icons/pause.svg"></div>
+            <div id="pauseEnd-button" class="pause-button d-none" onclick="pauseEnd()"><img src="./img/icons/play-icon.svg"></div>
+            <div id="mute-button-mute" class="fullscreen-button" onclick="muteAll()"><img src="./img/icons/unmute.png">
+            </div>
+            <div id="mute-button-unmute" class="fullscreen-button d-none" onclick="unmuteAll()"><img
+                    src="./img/icons/mute.png"></div>
+        </div>
+
+
+        <div id="info">left / right - ARROWS <br> jump - SPACE <br> throw bottle - D</div>
+    </div>
+
 
 </body>
 

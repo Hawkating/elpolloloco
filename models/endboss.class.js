@@ -75,6 +75,7 @@ class Endboss extends MovableObject {
             this.animate();
         }, 1000 / 10);
         allIntervals.push(this.intervalId);
+        pauseIntervalEndboss.push(this.intervalId);
     }
 
     /**
@@ -161,7 +162,9 @@ class Endboss extends MovableObject {
             this.y = 2000;
             this.world.character.won = true;
             this.world.music.endbossTheme.pause();
-            document.getElementById('replay-button').classList.remove('v-hidden');
+            document.getElementById('replay-button').classList.remove('d-none');
+            document.getElementById('pause-button').classList.add('d-none');
+            document.getElementById('pauseEnd-button').classList.add('d-none');
             clearAllIntervals();
         }
     }
@@ -171,6 +174,7 @@ class Endboss extends MovableObject {
      */
     firstContactEvent() {
         this.world.music.theme.pause();
+        clearInterval(this.world.music.intervalId);
         this.world.statusHealthEndboss.y = 420;
         if (!mute) {
             this.world.music.playEndbossTheme();

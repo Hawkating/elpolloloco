@@ -96,6 +96,7 @@ class Character extends MovableObject {
         this.setMovementInterval();
         this.setAnimationInterval();
         this.applyGravity();
+        this.walkingSound.volume = 1;
     }
 
     /**
@@ -104,6 +105,7 @@ class Character extends MovableObject {
     setMovementInterval() {
         this.intervalIdWalk = setInterval(() => this.movementInterval(), 1000 / 30);
         allIntervals.push(this.intervalIdWalk);
+        pauseIntervalCharacter.push(this.intervalIdWalk);
     }
 
     /**
@@ -112,13 +114,16 @@ class Character extends MovableObject {
     setAnimationInterval() {
         this.intervalIdAnimate = setInterval(() => this.animationInterval(), 1000 / 30);
         allIntervals.push(this.intervalIdAnimate);
+        pauseIntervalCharacter.push(this.intervalIdAnimate);
     }
 
     /**
      * Creates the movement of the character due different conditions
      */
     movementInterval() {
-        if (this.canMoveRight()) {
+        if (!this.canMoveLeft() && !this.canMoveRight()) {
+            this.walkingSound.pause();
+        } else if (this.canMoveRight()) {
             this.moveRight();
         } else if (this.canMoveLeft()) {
             this.moveLeft();
@@ -189,7 +194,7 @@ class Character extends MovableObject {
     moveLeft() {
         this.otherDirection = true;
         if (!mute) {
-            this.walkingSound.play()
+            this.walkingSound.play();
         }
         this.x -= 15;
         this.setLastMove();
@@ -266,7 +271,9 @@ class Character extends MovableObject {
      * Animation and events if the character dies
      */
     isDeadEvent() {
-        document.getElementById('replay-button').classList.remove('v-hidden');
+        document.getElementById('replay-button').classList.remove('d-none');
+        document.getElementById('pause-button').classList.add('d-none');
+        document.getElementById('pauseEnd-button').classList.add('d-none');
         this.img = this.imageCache[this.IMAGES_DEAD[this.currentImageDead]];
         this.currentImageDead++;
         this.world.music.endbossTheme.pause();

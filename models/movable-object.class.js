@@ -23,6 +23,7 @@ class MovableObject extends DrawableObject {
             }
         }, 1000 / 25);
         allIntervals.push(interval);
+        pauseIntervalGravity.push(interval);
     }
 
     /**
