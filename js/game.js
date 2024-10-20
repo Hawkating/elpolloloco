@@ -194,6 +194,9 @@ document.addEventListener('fullscreenchange', () => {
     if (!document.fullscreenElement) {
         document.getElementById('fullscreen-button-exit').classList.add('d-none');
         document.getElementById('fullscreen-button').classList.remove('d-none');
+        document.getElementById('buttons-container').classList.remove('full-buttons');
+        document.getElementById('canvas').classList.remove('full');
+        document.getElementById('info').classList.remove('d-none');
     }
 });
 
@@ -204,6 +207,9 @@ function enterFullscreen() {
     element = document.getElementById('fullscreen');
     document.getElementById('fullscreen-button').classList.add('d-none');
     document.getElementById('fullscreen-button-exit').classList.remove('d-none');
+    document.getElementById('info').classList.add('d-none');
+    document.getElementById('canvas').classList.add('full');
+    document.getElementById('buttons-container').classList.add('full-buttons');
     if (element.requestFullscreen) {
         element.requestFullscreen();
     } else if (element.msRequestFullscreen) {
@@ -217,6 +223,9 @@ function enterFullscreen() {
  * Closes the fullscreen
  */
 function exitFullscreen() {
+    document.getElementById('buttons-container').classList.remove('full-buttons');
+    document.getElementById('canvas').classList.remove('full');
+    document.getElementById('info').classList.remove('d-none');
     if (document.exitFullscreen) {
         document.exitFullscreen();
         document.getElementById('fullscreen-button-exit').classList.add('d-none');

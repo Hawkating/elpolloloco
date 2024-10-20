@@ -303,31 +303,53 @@ class Character extends MovableObject {
         let path = this.IMAGES_JUMPING[this.currentImageJumping];
         this.img = this.imageCache[path];
         if (this.speedY > 0) {
-            this.img = this.imageCache[path];
-            this.currentImageJumping++;
-            if (this.currentImageJumping > 3) {
-                this.currentImageJumping = 3;
-            }
+        this.jumpUp(path);
         }
         if (this.speedY < 0 && this.currentImageJumping == 3) {
-            this.currentImageJumping = 4;
-            path = this.IMAGES_JUMPING[this.currentImageJumping];
-            this.img = this.imageCache[path];
-            this.currentImageJumping++;
+        this.jumpDownStartAnimation(path);
         }
+        this.jumpDownLandingAnimation(path);
+    }
+
+    /**
+     * starts the jumping animation
+     * @param {string} path 
+     */
+    jumpUp(path){
+        this.img = this.imageCache[path];
+        this.currentImageJumping++;
+        if (this.currentImageJumping > 3) {
+            this.currentImageJumping = 3;
+        }
+    }
+
+    /**
+     * jumping animation after setting speedY to 0
+     * @param {string} path 
+     */
+    jumpDownStartAnimation(path){
+        this.currentImageJumping = 4;
+        path = this.IMAGES_JUMPING[this.currentImageJumping];
+        this.img = this.imageCache[path];
+        this.currentImageJumping++;
+    }
+
+    /**
+     * Landing animation
+     * @param {string} path 
+     */
+    jumpDownLandingAnimation(path){
         if (this.speedY < 0 && this.currentImageJumping == 5 && this.y < 170) {
-            this.img = this.imageCache[path];
         }
         if (this.speedY < 0 && this.currentImageJumping >= 5 && this.currentImageJumping <= 8 && this.y > 170) {
             this.currentImageJumping++;
             path = this.IMAGES_JUMPING[this.currentImageJumping];
-            this.img = this.imageCache[path];
         }
         if (this.currentImageJumping > 8) {
             this.currentImageJumping = 8;
             path = this.IMAGES_JUMPING[this.currentImageJumping];
-            this.img = this.imageCache[path];
         }
+        this.img = this.imageCache[path];
     }
 
     /**

@@ -44,6 +44,7 @@ canvas {
     border-radius: 12px;
     text-align: center;
     margin-top: 40px;
+    margin-bottom: 60px;
     color: white;
     text-outline: 3px 3px #ccc;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
@@ -55,6 +56,8 @@ canvas {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 .container:fullscreen {
@@ -115,8 +118,8 @@ canvas {
     border-radius: 12px;
 }
 
-.pause-button img{
-    height:20px;
+.pause-button img {
+    height: 20px;
 }
 
 .pause-button:hover {
@@ -161,10 +164,6 @@ canvas {
 
 .d-none {
     display: none !important;
-}
-
-.v-hidden {
-    visibility: hidden;
 }
 
 #responsive-keyboard {
@@ -214,11 +213,27 @@ canvas {
     border-radius: 8px;
 }
 
-.color-yellow{
-    background-color:  rgba(255, 204, 1, 1) !important;
+.color-yellow {
+    background-color: rgba(255, 204, 1, 1) !important;
 }
 
-#dialog{
+.full {
+    width: 85%;
+    height: 85%;
+}
+
+.impressum {
+    background-color: rgba(255, 204, 1, 0.5);
+    padding: 24px;
+    border-radius: 16px;
+}
+
+.impressum p {
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+#dialog {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -230,28 +245,31 @@ canvas {
     z-index: 20;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
+    padding-left: 24px;
+    padding-right: 24px;
 }
 
-#dialog h3{
+#dialog h3 {
     font-size: 60px;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
     letter-spacing: 3px;
     text-align: center;
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 760px) {
+
     canvas {
         width: 100%;
     }
 
-    #mute-button-mute{
+    #mute-button-mute {
         position: fixed;
         bottom: 5px;
         left: 10px;
 
     }
 
-    #mute-button-unmute{
+    #mute-button-unmute {
         position: fixed;
         bottom: 5px;
         left: 10px;
@@ -274,7 +292,7 @@ canvas {
         gap: 20px;
     }
 
-    #responsive-keyboard img{
+    #responsive-keyboard img {
         height: 30px;
     }
 
@@ -290,8 +308,23 @@ canvas {
         display: none;
     }
 
-    h1{
+    h1 {
         display: none;
+    }
+
+    footer{
+        width: 100vw;
+        display: flex;
+        align-items: end;
+        justify-content: end;
+        text-align: end;
+        padding-right: 8px;
+    }
+
+    .pause-button {
+        position: fixed;
+        bottom: 5px;
+        left: 60px;
     }
 
 }
@@ -319,18 +352,22 @@ canvas {
         display: none;
     }
 
+    h1 {
+        display: none;
+    }
+
     #fullscreen-button-exit {
         display: none;
     }
 
-    #mute-button-mute{
+    #mute-button-mute {
         position: fixed;
         bottom: 5px;
         left: 10px;
 
     }
 
-    #mute-button-unmute{
+    #mute-button-unmute {
         position: fixed;
         bottom: 5px;
         left: 10px;
@@ -347,7 +384,23 @@ canvas {
         bottom: 5px;
         right: 10px;
     }
-    
+
+    footer{
+        width: 100vw;
+        display: flex;
+        align-items: end;
+        justify-content: start;
+        text-align: end;
+        padding-left: 250px;
+        padding-bottom: 2vh;
+    }
+
+    .pause-button {
+        position: fixed;
+        bottom: 5px;
+        left: 60px;
+    }
+
 }
 
 @media(max-width: 360px) {
@@ -356,20 +409,43 @@ canvas {
     }
 }
 
-@media(max-height: 1025px){
-    #responsive-keyboard {
-        position: fixed;
-        bottom: 0;
-        z-index: 10;
-        height: 24px;
-        padding-bottom: 12px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 20px;
-    }
-
-    #info{
+@media(max-height: 1024px){
+    h1 {
         display: none;
     }
 }
+
+footer {
+    position: fixed;
+    bottom: 8px;
+}
+
+footer a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+footer a:hover {
+    color: rgba(255, 204, 1, 1);
+    cursor: pointer;
+}
+
+.home a {
+    text-decoration: none;
+    color: white;
+    font-size: 32px;
+    letter-spacing: 2px;
+}
+
+.home a:hover {
+    color: rgba(255, 204, 1, 1);
+    cursor: pointer;
+}
+
+.full-buttons{
+    position: fixed;
+    bottom: 0;
+}
+

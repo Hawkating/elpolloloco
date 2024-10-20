@@ -20,6 +20,7 @@
     <script src="./models/throwable-object.class.js"></script>
     <script src="./models/collectable-object.class.js"></script>
     <script src="./models/background-object.class.js"></script>
+    <script src="./models/status.class.js"></script>
     <script src="./models/status-bar.class.js"></script>
     <script src="./models/status-health-endboss.class.js"></script>
     <script src="./models/bottle-counter.class.js"></script>
@@ -48,12 +49,12 @@
     <div class="container" id="fullscreen">
         <canvas id="canvas" width="720" height="480"></canvas>
         <div id="responsive-keyboard">
-            <div class="arrow-left" id="arrow-left"><img src="./img\icons/right-arrow-button-icon.svg"></div>
-            <div class="arrow-right" id="arrow-right"><img src="./img\icons/right-arrow-button-icon.svg"></div>
-            <div class="space" id="space"><img src="./img\icons/space-button-icon.svg"></div>
-            <div class="d-button" id="d-button"><img src="./img/icons/d-button-icon.svg"></div>
+            <div class="arrow-left" oncontextmenu="return false" id="arrow-left"><img src="./img\icons/right-arrow-button-icon.svg"></div>
+            <div class="arrow-right" oncontextmenu="return false" id="arrow-right"><img src="./img\icons/right-arrow-button-icon.svg"></div>
+            <div class="space" oncontextmenu="return false" id="space"><img src="./img\icons/space-button-icon.svg"></div>
+            <div class="d-button" oncontextmenu="return false" id="d-button"><img src="./img/icons/d-button-icon.svg"></div>
         </div>
-        <div class="buttons-container">
+        <div id="buttons-container" class="buttons-container">
             <div id="fullscreen-button" class="fullscreen-button" onclick="enterFullscreen()"><img
                     src="./img/icons/fullscreen.png"></div>
             <div id="fullscreen-button-exit" class="fullscreen-button d-none" onclick="exitFullscreen()"><img
@@ -71,6 +72,7 @@
 
         <div id="info">left / right - ARROWS <br> jump - SPACE <br> throw bottle - D</div>
     </div>
+    <footer><a href="./impressum.html">Impressum</a></footer>
 
 
 </body>
